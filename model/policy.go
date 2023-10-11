@@ -127,6 +127,10 @@ func (model Model) ClearPolicy() {
 
 // GetPolicy gets all rules in a policy.
 func (model Model) GetPolicy(sec string, ptype string) [][]string {
+	if _, ok := model[sec][ptype]; !ok {
+		return [][]string{}
+	}
+
 	return model[sec][ptype].Policy
 }
 
