@@ -343,9 +343,14 @@ func (model Model) RemovePoliciesWithAffected(sec string, ptype string, rules []
 
 // RemoveFilteredPolicy removes policy rules based on field filters from the model.
 func (model Model) RemoveFilteredPolicy(sec string, ptype string, fieldIndex int, fieldValues ...string) (bool, [][]string) {
-	var tmp [][]string
-	var effects [][]string
+	tmp := [][]string{}
+	effects := [][]string{}
 	res := false
+
+	if _, ok := model[sec][ptype]; !ok {
+		return res, effects
+	}
+
 	model[sec][ptype].PolicyMap = map[string]int{}
 
 	for _, rule := range model[sec][ptype].Policy {
